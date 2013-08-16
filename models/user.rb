@@ -12,6 +12,10 @@ class User
   externally_readable   :active,
                         :sms_account,
                         :premium_until
+  
+  rest_interface :read, 
+                 :update, 
+                 :delete
 
   field :email, type: String
   field :first_name, type: String, default: ""
