@@ -22,7 +22,7 @@ class User
   field :last_name, type: String, default: ""
   field :mobile_number, type: String
   field :hashed_password, type: String
-  field :active, type: Boolean, default: false # normally equivalent to "has paid"
+  field :active, type: Boolean, default: true # it's free
   
   # Diagnostic fields
   
