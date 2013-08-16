@@ -80,4 +80,5 @@ Cuba.define do
 
   on '' do
     send_view "index"
+  end
 end
