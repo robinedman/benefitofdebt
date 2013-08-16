@@ -6,7 +6,7 @@ angular.module('HashBangURLs', []).config(['$locationProvider', function($locati
   $location.hashPrefix('!');
 }]);
 
-var benefitofdebt = angular.module('benefitofdebt', ['ngSanitize', 'HashBangURLs']);
+var benefitofdebt = angular.module('benefitofdebt', ['HashBangURLs']);
 
 benefitofdebt.config(['$routeProvider', function($routeProvider) {
   $routeProvider.
