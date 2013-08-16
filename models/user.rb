@@ -43,7 +43,6 @@ class User
   # This is where hashed_password becomes true to it's name
   before_create do |document|
     document.hashed_password = encrypt(document.hashed_password)
-    generate_unsubscribe_id
   end
   
   def has_password?(submitted_password)
@@ -100,9 +99,5 @@ class User
     
     def hash_string(s)
       Digest::SHA2.hexdigest(s)
-    end
-
-    def generate_unsubscribe_id
-      self.unsubscribe_id = encrypt(email + Time.now.to_s + @@unsubscribe_salt)
     end
 end
