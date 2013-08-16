@@ -20,6 +20,12 @@ def current_user(req)
   end
 end
 
+def init_session(req, user)
+  sid = SecureRandom.uuid
+  req.session[:sid] = sid
+  Session.create!(sid: sid, user: user)
+end
+
 Cuba.define do
   on 'models' do
     on ":sid" do |sid|
@@ -111,7 +117,7 @@ Cuba.define do
     on post do
       user = User.authenticate(email, password)
       if user
-        sid = init_mobile_session(user)
+        sid = init_session(user)
         send_json({sid: sid})
       else
         res.status = 401 # unauthorized
