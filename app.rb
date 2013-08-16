@@ -22,7 +22,7 @@ end
 
 Cuba.define do
   on ":sid" do |sid|
-    user = current__user(sid)
+    user = current_user(sid)
     if user == nil
       res.status = 401
     else
