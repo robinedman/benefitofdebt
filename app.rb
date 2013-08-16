@@ -2,77 +2,82 @@
 
 require_relative 'init'
 
+def send_view(view)
+  res.write File.read(File.join('public', "#{view}.html"))
+end
+
 Cuba.define do
 	on ":sid" do |sid|
-	      user = current__user(sid)
-	      if user == nil
-	        res.status = 401
-	      else
-	        # ===============
-	        # REST overrides
-	        # ===============
-	        
-	        # =======================
-	        # Default REST interface
-	        # =======================
-	        on ':model_pluralized' do |model_pluralized|
-	          model = model_pluralized.singularize.camelize.constantize
-	          if model.rest?
-	            on ":id" do |document_id|
+    user = current__user(sid)
+    if user == nil
+      res.status = 401
+    else
+      # ===============
+      # REST overrides
+      # ===============
+      
+      # =======================
+      # Default REST interface
+      # =======================
+      on ':model_pluralized' do |model_pluralized|
+        model = model_pluralized.singularize.camelize.constantize
+        if model.rest?
+          on ":id" do |document_id|
 
-	              # REST read individual document
-	              on get do
-	                if model.rest?(:read)
-	                  send_json(model.find(document_id).as_external_document)
-	                else
-	                  res.status = 401
-	                end
-	              end
+            # REST read individual document
+            on get do
+              if model.rest?(:read)
+                send_json(model.find(document_id).as_external_document)
+              else
+                res.status = 401
+              end
+            end
 
-	              # REST update()
-	              on put, param('data') do |client_model| 
-	                if model.rest?(:update)
-	                  LOG.info "REST update. #{user.email} updates document #{document_id} from #{model.name}."
-	                  model.find(document_id).external_update!(client_model)
-	                else
-	                  res.status = 401
-	                end
-	              end
-	              
-	              # REST delete()
-	              on delete do
-	                if model.rest?(:delete)
-	                  LOG.info "REST delete. #{user.email} deletes document #{document_id} from #{model.name}."
-	                  model.find(document_id).delete
-	                else
-	                  res.status = 401
-	                end
-	              end
-	            end
+            # REST update()
+            on put, param('data') do |client_model| 
+              if model.rest?(:update)
+                LOG.info "REST update. #{user.email} updates document #{document_id} from #{model.name}."
+                model.find(document_id).external_update!(client_model)
+              else
+                res.status = 401
+              end
+            end
+            
+            # REST delete()
+            on delete do
+              if model.rest?(:delete)
+                LOG.info "REST delete. #{user.email} deletes document #{document_id} from #{model.name}."
+                model.find(document_id).delete
+              else
+                res.status = 401
+              end
+            end
+          end
 
-	            on get do
-	              # REST read()
-	              if model.rest?(:read)
-	                send_json(model.all.map {|m| m.as_external_document})
-	              else
-	                res.status = 401
-	              end
-	            end
+          on get do
+            # REST read()
+            if model.rest?(:read)
+              send_json(model.all.map {|m| m.as_external_document})
+            else
+              res.status = 401
+            end
+          end
 
-	            # REST create()
-	            on post, param('data') do
-	              if model.rest?(:create)
-	                #
-	              else
-	                res.status = 401
-	              end
-	            end
-	          else
-	            res.status = 401
-	          end
-	        end
-
-	      end
-	      
+          # REST create()
+          on post, param('data') do
+            if model.rest?(:create)
+              #
+            else
+              res.status = 401
+            end
+          end
+        else
+          res.status = 401
+        end
+      end
+    end
   end
+
+  on '' do
+    send_view "index"
 end
