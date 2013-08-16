@@ -85,12 +85,6 @@ class User
     end
   end
   
-  class MalformedMobileNumber < StandardError
-    def message
-      "We do not accept extra-terrestrial phone numbers. Sorry."
-    end
-  end
-  
 
   private   
     def encrypt(s)
