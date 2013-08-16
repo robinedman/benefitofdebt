@@ -1,6 +1,8 @@
 class Session
   include Mongoid::Document
   include Mongoid::Timestamps
+  include LingonberryMongoidImportExport
+  
   field :sid, type: String
   belongs_to :user
 

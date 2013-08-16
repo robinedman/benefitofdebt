@@ -1,21 +1,21 @@
 production:
   sessions:
     default:
-      uri: mongodb://benefitofdebt-mongolab:<AC98hjGgUpRpSNruwhw9>@ds039078.mongolab.com:39078/benefitofdebt-production
+      uri: mongodb://benefitofdebt-mongolab:AC98hjGgUpRpSNruwhw9@ds039078.mongolab.com:39078/benefitofdebt-production
   options:
       raise_not_found_error: false
 
 development:
   sessions:
     default:
-      uri: mongodb://benefitofdebt-mongolab:<AC98hjGgUpRpSNruwhw9>@ds039078.mongolab.com:39078/benefitofdebt-test
+      uri: mongodb://benefitofdebt-mongolab:AC98hjGgUpRpSNruwhw9@ds039078.mongolab.com:39078/benefitofdebt-test
   options:
       raise_not_found_error: false
 
 test:
   sessions:
     default:
-      uri: mongodb://benefitofdebt-mongolab:<AC98hjGgUpRpSNruwhw9>@ds039078.mongolab.com:39078/benefitofdebt-test
+      uri: mongodb://benefitofdebt-mongolab:AC98hjGgUpRpSNruwhw9@ds039078.mongolab.com:39078/benefitofdebt-test
   options:
       raise_not_found_error: false
       

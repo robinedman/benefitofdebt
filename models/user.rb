@@ -37,7 +37,7 @@ class User
     # When a user registers, downcase the email address.
     # This will downcase the email unnecessarily whenever the document
     # is updated. But life is life, what to do? 
-    document.email.downcase!
+    document.email.downcase! if document.email
   end
 
   # This is where hashed_password becomes true to it's name
