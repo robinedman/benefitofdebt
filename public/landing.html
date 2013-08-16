@@ -1,2 +1,15 @@
 <h1>Hej och välkommen till BenefitOfDebt</h1>
 <p>Ipsum non dolor</p>
+
+<span>Message: {{message}}</span>
+
+<form name="login" ng-submit="submitLogin()" novalidate>
+  <fieldset>
+    <legend>Logga in här</legend>
+    <label>Användarnamn</label>
+    <input id='username' name='username' ng-model='username' placeholder='Användarnamn'>
+    <label>Lösenord</label>
+    <input id='password' name='password' ng-model='password' placeholder='Lösenord' required type='password'>
+    <input class='btn' name='login' type='submit' value='Logga in'>
+  </fieldset>
+</form>
