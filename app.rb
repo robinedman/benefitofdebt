@@ -115,4 +115,5 @@ Cuba.define do
         res.write "Ogiltig e-postadress eller lösenord."
       end
     end
+  end
 end
