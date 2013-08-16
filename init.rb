@@ -15,6 +15,8 @@ Cuba.use Rack::Static, :urls => ['/public',
                                  '/javascripts/app/controllers.js',
                                  '/favicon.ico']
 
+Cuba.use Rack::PostBodyToParams
+
 # ===================
 # Configures Mongoid
 # ===================

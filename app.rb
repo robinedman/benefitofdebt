@@ -12,6 +12,8 @@ def send_json(document)
 end
 
 def current_user(req)
+  puts req.class
+  puts req
   user = Session.authenticate(req.session[:sid])
   if user
     user
@@ -117,7 +119,7 @@ Cuba.define do
     on post do
       user = User.authenticate(email, password)
       if user
-        sid = init_session(user)
+        sid = init_session(req, user)
         send_json({sid: sid})
       else
         res.status = 401 # unauthorized

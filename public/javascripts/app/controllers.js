@@ -8,7 +8,7 @@ function IndexController($scope) {
 function LandingController($scope, $http) {
   $scope.message = "There is no spoon. Revenge!";
   $scope.submitLogin = function() {
-    var data = {'username': $scope.username,
+    var data = {'email': $scope.email,
                 'password': $scope.password};
     $http.post("login", data)
       .success(function(data, status) {
