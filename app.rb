@@ -6,6 +6,20 @@ def send_view(view)
   res.write File.read(File.join('public', "#{view}.html"))
 end
 
+def send_json(document)
+  res['Content-Type'] = 'application/json; charset=utf-8'
+  res.write ActiveSupport::JSON.encode(document)
+end
+
+def current_user(req)
+  user = Session.authenticate(req.session[:sid])
+  if user
+    user
+  else
+    nil
+  end
+end
+
 Cuba.define do
 	on ":sid" do |sid|
     user = current__user(sid)
@@ -81,4 +95,16 @@ Cuba.define do
   on '' do
     send_view "index"
   end
+
+  on 'login', param('email'), param('password') do |email, password|
+    on post do
+      user = User.authenticate(email, password)
+      if user
+        sid = init_mobile_session(user)
+        send_json({sid: sid})
+      else
+        res.status = 401 # unauthorized
+        res.write "Ogiltig e-postadress eller lösenord."
+      end
+    end
 end
