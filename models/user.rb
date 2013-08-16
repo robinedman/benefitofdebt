@@ -12,13 +12,17 @@ class User
   externally_readable   :active,
                         :sms_account,
                         :premium_until
+  
+  rest_interface :read, 
+                 :update, 
+                 :delete
 
   field :email, type: String
   field :first_name, type: String, default: ""
   field :last_name, type: String, default: ""
   field :mobile_number, type: String
   field :hashed_password, type: String
-  field :active, type: Boolean, default: false # normally equivalent to "has paid"
+  field :active, type: Boolean, default: true # it's free
   
   # Diagnostic fields
   
@@ -33,13 +37,12 @@ class User
     # When a user registers, downcase the email address.
     # This will downcase the email unnecessarily whenever the document
     # is updated. But life is life, what to do? 
-    document.email.downcase!
+    document.email.downcase! if document.email
   end
 
   # This is where hashed_password becomes true to it's name
   before_create do |document|
     document.hashed_password = encrypt(document.hashed_password)
-    generate_unsubscribe_id
   end
   
   def has_password?(submitted_password)
@@ -82,12 +85,6 @@ class User
     end
   end
   
-  class MalformedMobileNumber < StandardError
-    def message
-      "We do not accept extra-terrestrial phone numbers. Sorry."
-    end
-  end
-  
 
   private   
     def encrypt(s)
@@ -96,9 +93,5 @@ class User
     
     def hash_string(s)
       Digest::SHA2.hexdigest(s)
-    end
-
-    def generate_unsubscribe_id
-      self.unsubscribe_id = encrypt(email + Time.now.to_s + @@unsubscribe_salt)
     end
 end

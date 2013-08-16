@@ -1,5 +1,6 @@
 #encoding: utf-8
 
+require_relative 'helpers'
 require 'cuba'
 require 'rack/protection'
 require 'mongoid'
@@ -8,10 +9,14 @@ require 'rack/logger'
 require 'securerandom'
 require 'rack/post-body-to-params'
 
-PUBLIC_PATH = File.expand_path(File.join(File.dirname(__FILE__), 'public/'))
-
-puts PUBLIC_PATH
+require_from_directory 'models'
 
 Cuba.use Rack::Static, :urls => ['/public',
                                  '/javascripts/app/controllers.js',
                                  '/favicon.ico']
+
+# ===================
+# Configures Mongoid
+# ===================
+
+Mongoid.load!('mongoid.yml')
