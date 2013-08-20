@@ -86,6 +86,10 @@ class User
       "New password failed validation."
     end
   end
+
+  def expenses_involing(user_id)
+    self.expenses.where(:debtors.in => [user_id])
+  end
   
 
   private   
