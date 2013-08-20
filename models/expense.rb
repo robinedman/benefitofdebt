@@ -7,7 +7,7 @@ class Expense
 
   field :amount, type: Integer
   field :currency, type: String, default: 'SEK'
-  field :benefitees, type: Array
+  field :debtors, type: Array
 
   externally_readable :amount,
                       :currency
