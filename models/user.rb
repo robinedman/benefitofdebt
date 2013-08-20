@@ -7,6 +7,8 @@ class User
   include Mongoid::Timestamps
   include LingonberryMongoidImportExport
 
+  embeds_many :expenses
+
   externally_accessible '_id'
 
   externally_readable   :active,
@@ -83,6 +85,10 @@ class User
     def message
       "New password failed validation."
     end
+  end
+
+  def expenses_involing(user_id)
+    self.expenses.debts.where(:debtors.in => [user_id])
   end
   
 
