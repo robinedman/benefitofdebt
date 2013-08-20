@@ -88,7 +88,7 @@ class User
   end
 
   def expenses_involing(user_id)
-    self.expenses.where(:debtors.in => [user_id])
+    self.expenses.debts.where(:debtors.in => [user_id])
   end
   
 

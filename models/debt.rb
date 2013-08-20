@@ -4,8 +4,9 @@ class Debt
   include LingonberryMongoidImportExport
   
   field :amount, type: Integer
-  field :to, type: String
-  field :expense, type: String
+  field :currency, type: Integer, default: 'SEK'
+  field :creditor, type: String # user id
+  field :debtor, type: String # user id
 
   externally_readable :amount,
                       :currency
