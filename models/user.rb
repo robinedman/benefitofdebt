@@ -7,7 +7,7 @@ class User
   include Mongoid::Timestamps
   include LingonberryMongoidImportExport
 
-  embeds_many :expense
+  embeds_many :expenses
 
   externally_accessible '_id'
 

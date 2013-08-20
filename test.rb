@@ -1,3 +1,7 @@
 require_relative 'init'
 
-User.create!(first_name: "Kalle", last_name: "Kall", email: "kalle@example.com", hashed_password: "hejhejojoj")
+user = User.where(first_name: 'Kalle').first
+carrots = user.expenses.create(amount: 100)
+carrots.split_equally(['Sickan', 'Vanheden'])
+require 'pp'
+pp carrots.debts

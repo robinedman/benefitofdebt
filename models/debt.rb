@@ -3,6 +3,8 @@ class Debt
   include Mongoid::Timestamps
   include LingonberryMongoidImportExport
   
+  belongs_to :expense
+  
   field :amount, type: Integer
   field :currency, type: Integer, default: 'SEK'
   field :creditor, type: String # user id
