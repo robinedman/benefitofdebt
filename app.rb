@@ -107,6 +107,10 @@ Cuba.define do
     send_view "landing"
   end
 
+  on 'members' do
+    send_view "members"
+  end
+
   on 'test' do
     send_view "test"
   end
