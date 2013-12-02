@@ -22,7 +22,7 @@ class Expense
   def split_equally(users)
     users_amounts = []
     users.each do |user|
-      users_amounts << {user: user._id, amount: self.amount / users.length.to_f}
+      users_amounts << {user: user.email, amount: self.amount / users.length.to_f}
     end
     split(users_amounts)
   end
@@ -32,12 +32,12 @@ class Expense
     debts = []
     sum = 0
     users_amounts.each do |user_amount|
-        user_id = user_amount[:user]
+        user_email = user_amount[:user]
         amount = user_amount[:amount]
         sum += amount
         debts << Debt.create!(amount: amount,
                               creditor: self.user.email,
-                              debtor: User.find(user_id).email) unless user_id == self.user._id
+                              debtor: user_email) unless user_email == self.user.email
     end
     
     raise SplitDoesNotAddUpError unless sum == self.amount
