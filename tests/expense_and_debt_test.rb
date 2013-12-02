@@ -18,74 +18,77 @@ class ExpenseAndDebtTest < BenefitOfDebtTest
                              hashed_password: 'thecreditor123')
   end
 
+  def teardown
+    tabula_rasa
+  end
+
   def test_create_expense
     expense = @creditor.expenses.create!(amount: 105)
     assert_equal(105, expense.amount)
   end
 
-  def expense_splitted_equally
-    expense = @creditor.expenses.create!(amount: 1000)
-    expense.split_equally([@creditor, @first_debtor])
-    return expense
-  end
+  class SplitEqually < ExpenseAndDebtTest
+    def expense_splitted_equally
+      expense = @creditor.expenses.create!(amount: 1000)
+      expense.split_equally([@creditor, @first_debtor])
+      return expense
+    end
 
-  def test_split_expense_equally_with_someone_only_puts_one_of_us_in_debt
-    expense = expense_splitted_equally
+    def test_split_expense_equally_with_someone_only_puts_one_of_us_in_debt
+      expense = expense_splitted_equally
 
-    assert_equal(1, expense.debts.length)
-  end
+      assert_equal(1, expense.debts.length)
+    end
 
-  def test_split_expense_equally_with_someone_puts_that_someone_in_debt_to_me
-    expense = expense_splitted_equally
+    def test_split_expense_equally_with_someone_puts_that_someone_in_debt_to_me
+      expense = expense_splitted_equally
 
-    assert_equal('first_debtor@example.com', expense.debts.first.debtor)
-    assert_equal('creditor@example.com', expense.debts.first.creditor)
-  end
+      assert_equal('first_debtor@example.com', expense.debts.first.debtor)
+      assert_equal('creditor@example.com', expense.debts.first.creditor)
+    end
 
-  def test_split_expense_equally_with_someone_makes_someone_owe_half_the_amount
-    expense = expense_splitted_equally
-    
-    assert_equal((expense.amount / 2), expense.debts.first.amount)
-  end
-
-  def expense_splitted_inequally
-    expense = @creditor.expenses.create!(amount: 1000)
-    expense.split([{user: @creditor.email, amount: 300}, 
-                   {user: @first_debtor.email, amount: 700}])
-    return expense
-  end
-
-  def test_split_expense_inequally_with_someone_makes_someone_owe_me_that_amount
-    expense = expense_splitted_inequally
-
-    assert_equal(700, expense.debts.first.amount)
-  end
-
-  def test_split_expense_inequally_with_someone_puts_that_someone_in_debt_to_me
-    expense = expense_splitted_inequally
-
-    assert_equal('first_debtor@example.com', expense.debts.first.debtor)
-    assert_equal('creditor@example.com', expense.debts.first.creditor)
-  end
-
-  def test_split_expense_inequally_with_someone_only_puts_one_of_us_in_debt
-    expense = expense_splitted_inequally
-
-    assert_equal(1, expense.debts.length)
-  end
-
-  def test_raises_exception_when_split_does_not_add_up
-    expense = @creditor.expenses.create!(amount: 1000)
-
-    assert_raises(Expense::SplitDoesNotAddUpError) do
-      expense.split([{user: @creditor.email, amount: 299}, 
-                     {user: @first_debtor.email, amount: 700}])  
+    def test_split_expense_equally_with_someone_makes_someone_owe_half_the_amount
+      expense = expense_splitted_equally
+      
+      assert_equal((expense.amount / 2), expense.debts.first.amount)
     end
   end
+    
+  class SplitInequally < ExpenseAndDebtTest
+    def expense_splitted_inequally
+      expense = @creditor.expenses.create!(amount: 1000)
+      expense.split([{user: @creditor.email, amount: 300}, 
+                     {user: @first_debtor.email, amount: 700}])
+      return expense
+    end
 
+    def test_split_expense_inequally_with_someone_makes_someone_owe_me_that_amount
+      expense = expense_splitted_inequally
 
-  def teardown
-    tabula_rasa
+      assert_equal(700, expense.debts.first.amount)
+    end
+
+    def test_split_expense_inequally_with_someone_puts_that_someone_in_debt_to_me
+      expense = expense_splitted_inequally
+
+      assert_equal('first_debtor@example.com', expense.debts.first.debtor)
+      assert_equal('creditor@example.com', expense.debts.first.creditor)
+    end
+
+    def test_split_expense_inequally_with_someone_only_puts_one_of_us_in_debt
+      expense = expense_splitted_inequally
+
+      assert_equal(1, expense.debts.length)
+    end
+
+    def test_raises_exception_when_split_does_not_add_up
+      expense = @creditor.expenses.create!(amount: 1000)
+
+      assert_raises(Expense::SplitDoesNotAddUpError) do
+        expense.split([{user: @creditor.email, amount: 299}, 
+                       {user: @first_debtor.email, amount: 700}])  
+      end
+    end
   end
-
 end
+
