@@ -10,6 +10,7 @@ class Expense
   field :currency, type: String, default: 'SEK'
   field :description, type: String
   field :purchase_time, type: Time
+  field :receipt_image_url, type: String
 
   externally_readable :amount,
                       :currency
