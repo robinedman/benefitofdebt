@@ -1,36 +1,37 @@
 require_relative 'test_setup'
 
-class ExpenseAndDebtTest < BenefitOfDebtTest
-  def tabula_rasa
-    User.destroy_all(email: 'first_debtor@example.com')
-    User.destroy_all(email: 'second_debtor@example.com')
-    User.destroy_all(email: 'creditor@example.com')
+module ExpenseAndDebtTest
+  class Base < BenefitOfDebtTest
+    def tabula_rasa
+      User.destroy_all(email: 'first_debtor@example.com')
+      User.destroy_all(email: 'second_debtor@example.com')
+      User.destroy_all(email: 'creditor@example.com')
+    end
+
+    def setup
+      tabula_rasa
+
+      @first_debtor = User.create!(email: 'first_debtor@example.com',
+                                   hashed_password: 'firstdebtor123')
+      @second_debtor = User.create!(email: 'second_debtor@example.com',
+                                   hashed_password: 'firstdebtor123')
+      @creditor = User.create!(email: 'creditor@example.com',
+                               hashed_password: 'thecreditor123')
+    end
+
+    def teardown
+      tabula_rasa
+    end
   end
 
-  def setup
-    tabula_rasa
-
-    @first_debtor = User.create!(email: 'first_debtor@example.com',
-                                 hashed_password: 'firstdebtor123')
-    @second_debtor = User.create!(email: 'second_debtor@example.com',
-                                 hashed_password: 'firstdebtor123')
-    @creditor = User.create!(email: 'creditor@example.com',
-                             hashed_password: 'thecreditor123')
-  end
-
-  def teardown
-    tabula_rasa
-  end
-
-
-  class Various < ExpenseAndDebtTest
+  class Various < Base
     def test_create_expense
       expense = @creditor.expenses.create!(amount: 105)
       assert_equal(105, expense.amount)
     end
   end
 
-  class SplitEqually < ExpenseAndDebtTest
+  class SplitEqually < Base
     def test_only_puts_one_of_us_in_debt
       expense = expense_splitted_equally
 
@@ -58,8 +59,8 @@ class ExpenseAndDebtTest < BenefitOfDebtTest
       return expense
     end
   end
-    
-  class SplitInequally < ExpenseAndDebtTest
+
+  class SplitInequally < Base
     def test_only_puts_one_of_us_in_debt
       expense = expense_splitted_inequally
 
@@ -98,4 +99,11 @@ class ExpenseAndDebtTest < BenefitOfDebtTest
     end
   end
 end
+
+
+  
+
+  
+    
+  
 
