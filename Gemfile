@@ -1,5 +1,8 @@
 source 'http://rubygems.org'
 
+gem 'minitest', "~> 4.2"
+gem 'turn'
+gem 'rack-test'
 gem 'rack-protection'
 gem 'mongoid', '~>3.0.0'
 gem 'bson_ext', '~>1.6.4'
