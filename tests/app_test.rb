@@ -1,16 +1,6 @@
-ENV['RACK_ENV'] = 'test'
+require_relative 'test_setup'
 
-require 'turn/autorun'
-require 'rack/test'
-require 'json'
-require_relative '../app'
-
-class AppTest < MiniTest::Unit::TestCase
-  include Rack::Test::Methods
-
-  def app
-    Cuba
-  end
+class AppTest < BenefitOfDebtTest
 
   def test_default_route_serves_page
     get '/'
