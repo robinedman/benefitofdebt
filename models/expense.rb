@@ -20,7 +20,7 @@ class Expense
   def split_equally(users)
     users_amounts = []
     users.each do |user_id|
-      users_amounts << {user: user_id, amount: self.amount / users.length}
+      users_amounts << {user: user_id, amount: self.amount / users.length.to_f}
     end
     split(users_amounts)
   end
