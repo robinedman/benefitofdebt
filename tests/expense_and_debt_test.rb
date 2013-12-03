@@ -81,6 +81,20 @@ module ExpenseAndDebtTest
       assert_equal((@expense.amount / 2), @expense.debts.first.amount)
     end
 
+    def test_among_x_people_puts_only_x_minus_one_in_debt
+      expense = @creditor.expenses.create!(amount: 1000)
+      expense.split_equally([@creditor, @first_debtor, @second_debtor])
+
+      assert_equal(2, expense.debts.length)
+    end
+
+    def test_among_x_people_puts_the_others_in_debt_to_me
+      expense = @creditor.expenses.create!(amount: 1000)
+      expense.split_equally([@creditor, @first_debtor, @second_debtor])
+
+      assert(expense.debts.all? { |debt| debt.creditor == @creditor.email })
+    end
+
     private
 
     def expense_splitted_equally
