@@ -27,10 +27,6 @@ def init_session(req, user)
 end
 
 Cuba.define do
-  on root do
-    res.write("Benefit of Debt")
-  end
-
   on 'models' do
     user = current_user(req)
     if user == nil
