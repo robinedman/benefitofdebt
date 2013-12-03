@@ -7,8 +7,8 @@ class Debt
   
   field :amount, type: Integer
   field :currency, type: Integer, default: 'SEK'
-  field :creditor, type: String # user id
-  field :debtor, type: String # user id
+  field :creditor, type: String # user email
+  field :debtor, type: String # user email
 
   externally_readable :amount,
                       :currency
