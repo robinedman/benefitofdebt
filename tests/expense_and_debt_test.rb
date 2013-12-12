@@ -64,7 +64,7 @@ module ExpenseAndDebtTest
   class SplitEqually < Base
     def setup
       super
-      @expense = expense_splitted_equally
+      @expense = expense_split_equally
     end
 
 
@@ -97,7 +97,7 @@ module ExpenseAndDebtTest
 
     private
 
-    def expense_splitted_equally
+    def expense_split_equally
       expense = @creditor.expenses.create!(amount: 1000)
       expense.split_equally([@creditor, @first_debtor])
       return expense
@@ -107,7 +107,7 @@ module ExpenseAndDebtTest
   class SplitInequally < Base
     def setup
       super
-      @expense = expense_splitted_inequally
+      @expense = expense_split_inequally
     end
 
 
@@ -135,7 +135,7 @@ module ExpenseAndDebtTest
 
     private
 
-    def expense_splitted_inequally
+    def expense_split_inequally
       expense = @creditor.expenses.create!(amount: 1000)
       expense.split([{user: @creditor.email, amount: 300}, 
                      {user: @first_debtor.email, amount: 700}])
